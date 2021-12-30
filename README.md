@@ -1,1 +1,1 @@
-# coursera-applied_data_science-capstone-project
+# Coursera - Applied Data Science Capstone Project
