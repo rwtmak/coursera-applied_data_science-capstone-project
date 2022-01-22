@@ -13,6 +13,14 @@ min_payload = spacex_df['Payload Mass (kg)'].min()
 launch_sites_df = spacex_df.groupby(['Launch Site'], as_index=False).first()
 launch_sites_df = launch_sites_df[['Launch Site']]
 
+landing_label = []
+for outcome in spacex_df["class"]:
+    if (outcome == 0):
+        landing_label.append(1)
+    else:
+        landing_label.append(1)
+spacex_df['label']=landing_label
+
 # Create a dash application
 app = dash.Dash(__name__)
 
@@ -52,7 +60,8 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                     0: '0',
                                     2500: '2500',
                                     5000: '5000',
-                                    7500: '7500'},
+                                    7500: '7500',
+                                    10000: '10000'},
                                 value=[min_payload, max_payload]),
 
                                 # TASK 4: Add a scatter chart to show the correlation between payload and launch success
@@ -71,17 +80,7 @@ def get_pie_chart(entered_site):
         title='Total Success Launches By Site')
         return fig
     else:
-        #success_count = 0
-        #failed_count = 0
-        #for index, outcome in enumerate(filtered_df['class']):
-        #    if (outcome == 1):
-        #        success_count = success_count + 1
-        #    else:
-        #        failed_count = failed_count + 1
-        #outcome_df.columns = ['class', 'outcome']
-        #outcome_df['class'] = ['1','0']
-        #outcome_df['outcome'] = [success_count, failed_count]               
-        fig = px.pie(filtered_df, values=str('class'),
+        fig = px.pie(filtered_df, values='label',
         names='class',
         title='Total Success Launches for site ' + str(entered_site))
         return fig
